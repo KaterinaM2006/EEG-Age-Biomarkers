@@ -11,6 +11,8 @@ print()
 
 # Separate features (X) from the label we want to predict (y)
 X = df.drop(columns=["subject_id", "label"])
+X = X.dropna(axis=1)  # keep only channels/bands present for every subject
+print(f"Using {X.shape[1]} features after dropping inconsistent channels")
 y = df["label"]
 
 X_train, X_test, y_train, y_test = train_test_split(
