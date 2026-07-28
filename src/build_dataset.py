@@ -39,9 +39,14 @@ def extract_features_for_subject(subject_id):
 
     features = {}
     for ch_idx, ch_name in enumerate(epochs.ch_names):
+        band_powers = {}
         for band_name, (fmin, fmax) in BANDS.items():
             freq_mask = (freqs >= fmin) & (freqs < fmax)
-            features[f"{ch_name}_{band_name}"] = mean_psd[ch_idx, freq_mask].mean()
+            band_powers[band_name] = mean_psd[ch_idx, freq_mask].mean()
+
+        total_power = sum(band_powers.values())
+        for band_name, power in band_powers.items():
+            features[f"{ch_name}_{band_name}"] = power / total_power
 
     return features
 
