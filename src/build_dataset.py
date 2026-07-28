@@ -32,7 +32,8 @@ def extract_features_for_subject(subject_id):
         reject_by_annotation=True, verbose=False,
     )
 
-    psd = epochs.compute_psd(method="welch", fmin=1, fmax=45, n_fft=500, verbose=False)
+    n_fft = min(500, len(epochs.times))
+    psd = epochs.compute_psd(method="welch", fmin=1, fmax=45, n_fft=n_fft, verbose=False)
     psds, freqs = psd.get_data(return_freqs=True)
     mean_psd = psds.mean(axis=0)  # shape: channels x freqs
 
