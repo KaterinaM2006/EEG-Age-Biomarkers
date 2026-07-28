@@ -50,8 +50,15 @@ def main():
     id_col = labels_df.columns[0]  # the first column holds the subject ID, even though it has no header name
     age_col = [c for c in labels_df.columns if "age" in c.lower()][0]
 
+    def age_bin_to_group(age_bin):
+        start = int(str(age_bin).split("-")[0])
+        if start < 40:  # young cluster (20-35)
+            return "20-30" if start < 28 else "30-35"
+        else:  # old cluster (59-77)
+            return "59-70" if start < 68 else "70-77"
+
     label_map = {
-        row[id_col]: row[age_col]
+        row[id_col]: age_bin_to_group(row[age_col])
         for _, row in labels_df.iterrows()
     }
 
