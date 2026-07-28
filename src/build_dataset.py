@@ -52,9 +52,9 @@ def main():
 
     def age_bin_to_group(age_bin):
         start = int(str(age_bin).split("-")[0])
-        if start < 40:  # young cluster (20-35)
-            return "20-30" if start < 28 else "30-35"
-        else:  # old cluster (59-77)
+        if start < 40:  # young cluster (20-35), no longer split
+            return "20-35"
+        else:  # old cluster (59-77), still split in two
             return "59-70" if start < 68 else "70-77"
 
     label_map = {
